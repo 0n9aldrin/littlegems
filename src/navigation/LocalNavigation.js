@@ -5,7 +5,7 @@ import LocalHomeScreen from '../screens/local/LocalHomeScreen';
 const Stack = createNativeStackNavigator();
 
 const LocalNavigator = () => (
-  <Stack.Navigator> 
+  <Stack.Navigator screenOptions={{ headerShown: false }}> 
     <Stack.Screen name="Local Home Screen" component={LocalHomeScreen} />
   </Stack.Navigator>
 );
