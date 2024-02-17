@@ -8,6 +8,7 @@ import {
   Image,
   Animated,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
@@ -83,6 +84,26 @@ const TouristTile = ({
     }),
   };
 
+  const handleAccept = () => {
+    Alert.alert(
+      "Confirm Request",
+      `Do you want to confirm ${name}'s request?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Confirm",
+          onPress: () => {
+            // Handle confirmation logic here
+            console.log(`${name}'s request confirmed`);
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <TouchableOpacity onPress={toggleExpand} activeOpacity={0.9}>
       <View style={styles.tileContainerVertical}>
@@ -104,7 +125,7 @@ const TouristTile = ({
           </View>
         </View>
         <Animated.View style={[styles.expandedContent, expandStyle]}>
-          <TouchableOpacity style={styles.acceptButton}>
+          <TouchableOpacity style={styles.acceptButton} onPress={handleAccept}>
             <Text style={styles.acceptButtonText}>Accept</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -114,6 +135,10 @@ const TouristTile = ({
 };
 
 const LocalHomeScreen = () => {
+  const onPressFilter = () => {
+    console.log("Gilter pressed.");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -123,6 +148,9 @@ const LocalHomeScreen = () => {
           <Icon name="user" size={24} color="black" />
         </View>
       </View>
+      {/* <TouchableOpacity onPress={onPressFilter} style={styles.buttonFilter}>
+        <Text style={styles.filterButtonText}>Filter</Text>
+      </TouchableOpacity> */}
       <FlatList
         data={touristsData}
         keyExtractor={(item) => item.id}
@@ -159,9 +187,25 @@ const styles = StyleSheet.create({
     // fontWeight: "bold",
     textAlign: "center", // Center the text horizontally
     flex: 1, // Take up remaining space
+    fontFamily: "Poppins-Regular",
   },
   iconContainer: {
     // No need for marginLeft: "auto"
+  },
+  buttonFilter: {
+    backgroundColor: "black",
+    borderRadius: 60,
+    width: "70%",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    marginBottom:20,
+  },
+  filterButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   tileContainer: {
     flexDirection: "row",
@@ -201,7 +245,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "Poppins-Bold",
   },
   ratingBubble: {
     backgroundColor: "#EEEEEE", // Background color of the bubble
@@ -211,20 +255,25 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: 14,
+    fontFamily: "Poppins-Regular",
   },
   location: {
     fontSize: 14,
+    fontFamily: "Poppins-Regular",
   },
   dot: {
     fontSize: 14,
     marginHorizontal: 5,
+    fontFamily: "Poppins-Regular",
   },
   dateTime: {
     fontSize: 14,
+    fontFamily: "Poppins-Regular",
   },
   bio: {
     fontSize: 14,
     marginBottom: 5,
+    fontFamily: "Poppins-Regular",
   },
   expandedContent: {
     overflow: "hidden",
@@ -232,13 +281,13 @@ const styles = StyleSheet.create({
   acceptButton: {
     backgroundColor: "green",
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 60,
     marginTop: 10,
   },
   acceptButtonText: {
     color: "white",
-    fontWeight: "bold",
     textAlign: "center",
+    fontFamily: "Poppins-Bold",
   },
 });
 
