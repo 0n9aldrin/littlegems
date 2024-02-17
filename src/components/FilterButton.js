@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     marginVertical: 3,
     justifyContent: "center",
     marginRight: 2,
+    height: "30%",
   },
   plus: {
     fontSize: 30,
