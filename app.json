@@ -15,16 +15,26 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aardisaputra.littlegems"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.aardisaputra.littlegems"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "react-native-auth0",
+        {
+          "domain": "dev-p4hkjrtslpvcz4mj.us.auth0.com"
+        }
+      ]
+    ]
   }
 }
