@@ -8,6 +8,7 @@ import {
   Image,
   Animated,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
@@ -83,6 +84,26 @@ const TouristTile = ({
     }),
   };
 
+  const handleAccept = () => {
+    Alert.alert(
+      "Confirm Request",
+      `Do you want to confirm ${name}'s request?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Confirm",
+          onPress: () => {
+            // Handle confirmation logic here
+            console.log(`${name}'s request confirmed`);
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <TouchableOpacity onPress={toggleExpand} activeOpacity={0.9}>
       <View style={styles.tileContainerVertical}>
@@ -104,7 +125,7 @@ const TouristTile = ({
           </View>
         </View>
         <Animated.View style={[styles.expandedContent, expandStyle]}>
-          <TouchableOpacity style={styles.acceptButton}>
+          <TouchableOpacity style={styles.acceptButton} onPress={handleAccept}>
             <Text style={styles.acceptButtonText}>Accept</Text>
           </TouchableOpacity>
         </Animated.View>
