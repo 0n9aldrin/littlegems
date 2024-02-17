@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     flex: 1,
+    fontFamily: "Poppins-Regular",
   },
   iconContainer: {},
   searchSection: {
@@ -230,6 +231,8 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
+    fontFamily: "Poppins-Regular",
+    fontSize: 18,
   },
   clearIcon: {
     padding: 10,
@@ -256,6 +259,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "gray",
     paddingHorizontal: 20,
+    fontFamily: "Poppins-Regular",
+    fontSize: 18,
   },
   noBottomBorder: {
     borderBottomWidth: 0,
@@ -265,7 +270,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   searchResultText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: "Poppins-Regular",
   },
   buttonDate: {
     backgroundColor: "black",
@@ -319,26 +325,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 20,
     height: 100, // Adjust height according to your design
+    fontFamily: "Poppins-Regular",
+    fontSize: 18,
   },
   location: {
     marginVertical: 20,
     fontSize: 20,
-    fontWeight: "bold"
+    fontFamily: "Poppins-Bold",
   },
   date: {
     marginVertical: 20,
     fontSize: 20,
-    fontWeight: "bold"
+    fontFamily: "Poppins-Bold",
   },
   time: {
     marginVertical: 20,
     fontSize: 20,
-    fontWeight: "bold"
+    fontFamily: "Poppins-Bold",
   },
   notes: {
     marginVertical: 20,
     fontSize: 20,
-    fontWeight: "bold"
+    fontFamily: "Poppins-Bold",
   },
 });
 

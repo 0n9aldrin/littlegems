@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     // fontWeight: "bold",
     textAlign: "center", // Center the text horizontally
     flex: 1, // Take up remaining space
+    fontFamily: "Poppins-Regular",
   },
   iconContainer: {
     // No need for marginLeft: "auto"
@@ -244,7 +245,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "Poppins-Bold",
   },
   ratingBubble: {
     backgroundColor: "#EEEEEE", // Background color of the bubble
@@ -254,20 +255,25 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: 14,
+    fontFamily: "Poppins-Regular",
   },
   location: {
     fontSize: 14,
+    fontFamily: "Poppins-Regular",
   },
   dot: {
     fontSize: 14,
     marginHorizontal: 5,
+    fontFamily: "Poppins-Regular",
   },
   dateTime: {
     fontSize: 14,
+    fontFamily: "Poppins-Regular",
   },
   bio: {
     fontSize: 14,
     marginBottom: 5,
+    fontFamily: "Poppins-Regular",
   },
   expandedContent: {
     overflow: "hidden",
@@ -280,8 +286,8 @@ const styles = StyleSheet.create({
   },
   acceptButtonText: {
     color: "white",
-    fontWeight: "bold",
     textAlign: "center",
+    fontFamily: "Poppins-Bold",
   },
 });
 
