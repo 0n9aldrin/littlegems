@@ -2,15 +2,16 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from "reac
 import FilterButton from "./FilterButton"
 import LoginButton from "./LoginButton"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const DietFilters = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [filters, setFilters] = useState(["Vegan", "Vegetarian"]);
+    const [filterOptions, setFilterOptions] = useState(["Vegan", "Vegetarian"]);
     const [newFilter, setNewFilter] = useState('');
+    const [filters, setFilters] = useState([]) 
 
     const addFilterHandler = () => {
-        setFilters([...filters, newFilter]);
+        setFilterOptions([...filterOptions, newFilter]);
         setIsModalVisible(false)
         setNewFilter('');
     }
@@ -19,6 +20,18 @@ const DietFilters = () => {
         setIsModalVisible(false);
         setNewFilter('');
     }
+
+    const addFilter = (param) => {
+        setFilters([...filters, param])
+    }
+
+    const removeFilter = (param) => {
+        setFilters(filters.filter(item => item !== param))
+    }
+
+    useEffect(() => {
+        console.log(filters);
+    }, [filters])
 
     return (
         <View style={styles.container}>
@@ -52,12 +65,14 @@ const DietFilters = () => {
                 </View>
             </Modal>
             <View style={styles.subContainer}>
-                {filters.map((filter, index) => (
-                    <FilterButton key={index} text={filter} />
+                {filterOptions.map((filter, index) => (
+                    <FilterButton key={index} text={filter} remove={removeFilter} add={addFilter} />
                 ))}
             </View>
             <View style={styles.continueContainer}>
-                <LoginButton text="Continue" />
+                <TouchableOpacity style={styles.continueSubContainer} onPress={{}}>
+                    <Text style={styles.continueText}>Continue</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -66,7 +81,7 @@ const DietFilters = () => {
 const styles = StyleSheet.create({
     container: {
         marginHorizontal: 20,
-        marginVertical: "12%"
+        marginVertical: "17%"
     },
     subContainer :{ 
         flexDirection: "row",
@@ -83,7 +98,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flexDirection: "row",
         marginVertical: 5,
-        height: "15%",
+        height: "17%",
     },
     buttonText: {
         color: "white",
@@ -147,6 +162,19 @@ const styles = StyleSheet.create({
     },
     cancelButtonText: {
         fontSize: 15,
+    },
+    continueSubContainer: {
+        backgroundColor: "black",
+        borderRadius: "100%",
+        width: "70%",
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    continueText: {
+        color: "white",
+        fontSize: 18,
+        fontWeight: "bold",
     }
 })
 
