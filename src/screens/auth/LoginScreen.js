@@ -1,30 +1,60 @@
 import LoginButton from "../../components/LoginButton";
 import { useOAuth } from "@clerk/clerk-expo";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TextInput, onPress } from "react-native";
+import * as WebBrowser from "expo-web-browser";
 import { useConvexAuth } from "convex/react";
 import React from "react";
 import { Button } from "react-native";
+import Clerk from "@clerk/clerk-js";
+import { useSignIn } from "@clerk/clerk-expo";
+// import { SignIn } from "@clerk/clerk-expo";
+// import { useWarmUpBrowser } from "../hooks/useWarmUpBrowser";
+
+WebBrowser.maybeCompleteAuthSession();
 
 const Login = () => {
-  const { isLoading, isAuthenticated } = useConvexAuth();
-  const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
-  const onPress = React.useCallback(async () => {
-    try {
-      const { createdSessionId, signIn, signUp, setActive } =
-        await startOAuthFlow();
+  const { signIn, setActive, isLoaded } = useSignIn();
 
-      if (createdSessionId) {
-        setActive({ session: createdSessionId });
-      } else {
-        // Use signIn or signUp for next steps such as MFA
-      }
-    } catch (err) {
-      console.error("OAuth error", err);
+  const [emailAddress, setEmailAddress] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const { isLoading, isAuthenticated } = useConvexAuth();
+
+  const onSignInPress = async () => {
+    if (!isLoaded) {
+      return;
     }
-  }, []);
+
+    try {
+      const completeSignIn = await signIn.create({
+        identifier: emailAddress,
+        password,
+      });
+      // This is an important step,
+      // This indicates the user is signed in
+      await setActive({ session: completeSignIn.createdSessionId });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <View style={styles.container}>
-      <LoginButton text={"Login"} onPress={onPress} />
+      <View>
+        <TextInput
+          autoCapitalize="none"
+          value={emailAddress}
+          placeholder="Email..."
+          onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+        />
+      </View>
+      <View>
+        <TextInput
+          value={password}
+          placeholder="Password..."
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+        />
+      </View>
+      <LoginButton text={"Login"} onPress={onSignInPress} />
       <Text>
         {isAuthenticated ? "Logged in" : "Logged out or still loading"}
       </Text>
@@ -34,7 +64,7 @@ const Login = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: "150%",
+    marginTop: "10%",
     width: "100%",
     height: "12%",
     alignItems: "center",
