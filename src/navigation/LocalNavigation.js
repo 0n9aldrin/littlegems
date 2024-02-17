@@ -1,11 +1,12 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from '../screens/auth/Login';
+import LocalHomeScreen from '../screens/local/LocalHomeScreen';
 
 const Stack = createNativeStackNavigator();
 
 const LocalNavigator = () => (
   <Stack.Navigator> 
+    <Stack.Screen name="Local Home Screen" component={LocalHomeScreen} />
   </Stack.Navigator>
 );
 
