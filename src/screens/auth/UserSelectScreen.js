@@ -4,8 +4,6 @@ import { StyleSheet, View } from "react-native";
 import { useState, useEffect } from "react";
 
 const UserSelect = () => {
-    // add function prop to LoginButton and change name to just Button
-    // 0 = local, 1 = tourist
     const [userType, setUserType] = useState(0);
 
     useEffect(() => {
@@ -15,9 +13,9 @@ const UserSelect = () => {
 
     return (
         <View style={styles.container}>
-            <LoginButton text="Local"/>
+            <LoginButton text="Local" onPress={() => setUserType(0)}/>
             <View style={styles.space}></View>
-            <LoginButton text="Tourist"/>
+            <LoginButton text="Tourist" onPress={() => setUserType(1)}/>
         </View>
     )
 }

@@ -1,29 +1,45 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native"
+import { StyleSheet, View, Text, TouchableOpacity, FlatList } from "react-native"
 import FilterButton from "./FilterButton"
+import LoginButton from "./LoginButton"
+
+import { useState } from "react"
 
 const DietFilters = () => {
+    const [filters, setFilters] = useState(["Vegan", "Vegetarian"]);
+    const renderItem = ({ item }) => <FilterButton text={item} />
+
+    const addFilter = (item) => {
+        setFilters([...filters, item])
+    }
+
     return (
         <View style={styles.container}>
-            {/* <Text style={styles.title}>Dietary Restrictions</Text> */}
-            {/* <TouchableOpacity style={styles.buttonContainer}>
+            <Text style={styles.title}>Dietary Restrictions</Text> 
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => addFilter("yogurt")}>
                 <Text style={styles.plus}>+</Text>
                 <Text style={styles.buttonText}> Add a dietary restriction</Text>
-            </TouchableOpacity> */}
-            <FilterButton text={"Vegan"} />
-            <FilterButton text={"Vegetarian"} />
-            <FilterButton text={"Vegetarian"} />
-            <FilterButton text={"no beans"} />
-            <FilterButton text={"Vegetarian"} />
+            </TouchableOpacity>
+            <View style={styles.subContainer}>
+                {filters.map((filter, index) => (
+                    <FilterButton key={index} text={filter} />
+                ))}
+            </View>
+            <View style={styles.continueContainer}>
+                <LoginButton text="continue" />
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container :{ 
-        padding: 20,
-        paddingTop: 40,
+    container: {
+        marginHorizontal: 20,
+        marginVertical: "12%"
+    },
+    subContainer :{ 
         flexDirection: "row",
         flexWrap: "wrap",
+        // borderWidth: 1,
     },
     title : {
         fontSize: 20,
@@ -51,6 +67,9 @@ const styles = StyleSheet.create({
         // borderColor: "red",
         justifyContent: "center",
         textAlign: "center"
+    },
+    continueContainer: {
+        alignItems: "center",
     }
 })
 
