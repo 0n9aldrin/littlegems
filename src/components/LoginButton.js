@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const LoginButton = () => {
+const LoginButton = ({text}) => {
     return(
         <TouchableOpacity style={styles.container}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>{text}</Text>
         </TouchableOpacity>
     );
 }

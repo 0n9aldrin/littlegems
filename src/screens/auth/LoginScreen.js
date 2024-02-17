@@ -5,7 +5,7 @@ import { StyleSheet, View } from "react-native";
 const Login = () => {
     return (
         <View style={styles.container}>
-            <LoginButton />
+            <LoginButton text={'Login'}/>
         </View>
 
     );  
