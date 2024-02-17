@@ -80,118 +80,124 @@ const TouristHomeScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <Icon name="user" size={24} color="white" />
-          <Text style={styles.headerText}>Find a Tourist</Text>
-          <View style={styles.iconContainer}>
-            <Icon name="user" size={24} color="black" />
+        <SafeAreaView style={styles.container}>
+          <View style={styles.header}>
+            <Icon name="user" size={24} color="white" />
+            <Text style={styles.headerText}>Find a Tourist</Text>
+            <View style={styles.iconContainer}>
+              <Icon name="user" size={24} color="black" />
+            </View>
           </View>
-        </View>
-        <View style={styles.formContainer}>
-          <Text style={styles.location}>Location</Text>
-          <View style={styles.searchSection}>
-            <TextInput
-              ref={inputRef}
-              style={styles.input}
-              placeholder="Search for a city"
-              value={selectedPlace || searchText}
-              onChangeText={setSearchText}
-              onSubmitEditing={() => handleSearch(searchText)}
-              onFocus={() => setSearchResults([])}
-            />
-            <Icon
-              name="x-circle"
-              size={20}
-              color="gray"
-              style={styles.clearIcon}
-              onPress={clearSearch}
-            />
-          </View>
-          {searchText.trim().length > 0 && (
-  (loading || searchResults.length > 0 || noResults) && (
-    <View style={styles.searchResultsContainer}>
-      {loading ? (
-        // Display loading spinner
-        <ActivityIndicator
-          size="small"
-          color="black"
-          style={{ marginTop: 10 }}
-        />
-      ) : searchResults.length > 0 ? (
-        // Display search results
-        searchResults.map((result, index) => (
-          <TouchableOpacity
-            key={result.place_id}
-            style={[
-              styles.searchResultItem,
-              index === searchResults.length - 1 &&
-                styles.noBottomBorder,
-            ]}
-            onPress={() => handlePlaceSelect(result)}
-          >
-            <Icon
-              name="map-pin"
-              size={18}
-              style={styles.searchResultIcon}
-            />
-            <Text style={styles.searchResultText}>
-              {result.display_name.split(", ").slice(0, 2).join(", ")}
-            </Text>
-          </TouchableOpacity>
-        ))
-      ) : noResults ? (
-        // Display "No results" message
-        <Text style={styles.searchResultItem}>No results</Text>
-      ) : null}
-    </View>
-  )
-)}
+          <View style={styles.formContainer}>
+            <Text style={styles.location}>Location</Text>
+            <View style={styles.searchSection}>
+              <TextInput
+                ref={inputRef}
+                style={styles.input}
+                placeholder="Search for a city"
+                value={selectedPlace || searchText}
+                onChangeText={setSearchText}
+                onSubmitEditing={() => handleSearch(searchText)}
+                onFocus={() => setSearchResults([])}
+              />
+              <Icon
+                name="x-circle"
+                size={20}
+                color="gray"
+                style={styles.clearIcon}
+                onPress={clearSearch}
+              />
+            </View>
+            {searchText.trim().length > 0 &&
+              (loading || searchResults.length > 0 || noResults) && (
+                <View style={styles.searchResultsContainer}>
+                  {loading ? (
+                    // Display loading spinner
+                    <ActivityIndicator
+                      size="small"
+                      color="black"
+                      style={{ marginTop: 10 }}
+                    />
+                  ) : searchResults.length > 0 ? (
+                    // Display search results
+                    searchResults.map((result, index) => (
+                      <TouchableOpacity
+                        key={result.place_id}
+                        style={[
+                          styles.searchResultItem,
+                          index === searchResults.length - 1 &&
+                            styles.noBottomBorder,
+                        ]}
+                        onPress={() => handlePlaceSelect(result)}
+                      >
+                        <Icon
+                          name="map-pin"
+                          size={18}
+                          style={styles.searchResultIcon}
+                        />
+                        <Text style={styles.searchResultText}>
+                          {result.display_name
+                            .split(", ")
+                            .slice(0, 2)
+                            .join(", ")}
+                        </Text>
+                      </TouchableOpacity>
+                    ))
+                  ) : noResults ? (
+                    // Display "No results" message
+                    <Text style={styles.searchResultItem}>No results</Text>
+                  ) : null}
+                </View>
+              )}
 
-          <Text style={styles.date}>Date</Text>
-          {/* <TouchableOpacity
+            <Text style={styles.date}>Date</Text>
+            {/* <TouchableOpacity
           onPress={() => setShowDatePicker(true)}
           style={styles.buttonDate}
         >
           <Text style={styles.buttonDateText}>Pick Date</Text>
         </TouchableOpacity> */}
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeDate}
-          />
-          <Text style={styles.time}>Time</Text>
-          {/* <TouchableOpacity
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeDate}
+            />
+            <Text style={styles.time}>Time</Text>
+            {/* <TouchableOpacity
           onPress={() => setShowTimePicker(true)}
           style={styles.buttonTime}
         >
           <Text style={styles.buttonTimeText}>Pick Time</Text>
         </TouchableOpacity> */}
-          <DateTimePicker
-            testID="timePicker"
-            value={date}
-            mode="time"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeTime}
-          />
+            <DateTimePicker
+              testID="timePicker"
+              value={date}
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeTime}
+            />
 
-          <Text style={styles.notes}>Notes</Text>
-          <TextInput
-  style={styles.notesInput}
-  multiline={true}
-  numberOfLines={4}
-  maxLength={50}
-  placeholder="Enter notes (max 50 characters)"
-/>
-          <TouchableOpacity onPress={handleSubmit} style={styles.buttonFilter}>
-            <Text style={styles.filterButtonText}>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+            <Text style={styles.notes}>Notes</Text>
+            <TextInput
+              style={styles.notesInput}
+              multiline={true}
+              numberOfLines={4}
+              maxLength={50}
+              placeholder="Enter notes (max 50 characters)"
+            />
+            <TouchableOpacity
+              onPress={handleSubmit}
+              style={styles.buttonFilter}
+            >
+              <Text style={styles.filterButtonText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+        
     </TouchableWithoutFeedback>
   );
 };
@@ -329,7 +335,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   location: {
-    marginVertical: 20,
+    marginBottom: 20,
     fontSize: 20,
     fontFamily: "Poppins-Bold",
   },
