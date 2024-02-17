@@ -12,7 +12,7 @@ const LoginButton = ({ text, onPress }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "black",
-    borderRadius: "100%",
+    borderRadius: 60,
     width: "70%",
     height: 50,
     alignItems: "center",

@@ -6,6 +6,8 @@ import AuthNavigator from "./src/navigation/AuthNavigation";
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import Constants from "expo-constants";
+import LocalNavigator from "./src/navigation/LocalNavigation";
+import TouristNavigator from "./src/navigation/TouristNavigation";
 
 const convex = new ConvexReactClient(CONVEX_URL, {
   unsavedChangesWarning: false,

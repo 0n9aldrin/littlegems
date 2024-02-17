@@ -135,6 +135,10 @@ const TouristTile = ({
 };
 
 const LocalHomeScreen = () => {
+  const onPressFilter = () => {
+    console.log("Gilter pressed.");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -144,6 +148,9 @@ const LocalHomeScreen = () => {
           <Icon name="user" size={24} color="black" />
         </View>
       </View>
+      {/* <TouchableOpacity onPress={onPressFilter} style={styles.buttonFilter}>
+        <Text style={styles.filterButtonText}>Filter</Text>
+      </TouchableOpacity> */}
       <FlatList
         data={touristsData}
         keyExtractor={(item) => item.id}
@@ -183,6 +190,21 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     // No need for marginLeft: "auto"
+  },
+  buttonFilter: {
+    backgroundColor: "black",
+    borderRadius: 60,
+    width: "70%",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    marginBottom:20,
+  },
+  filterButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   tileContainer: {
     flexDirection: "row",
@@ -253,7 +275,7 @@ const styles = StyleSheet.create({
   acceptButton: {
     backgroundColor: "green",
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 60,
     marginTop: 10,
   },
   acceptButtonText: {
