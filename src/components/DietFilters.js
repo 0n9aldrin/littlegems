@@ -1,7 +1,5 @@
 import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from "react-native"
 import FilterButton from "./FilterButton"
-import LoginButton from "./LoginButton"
-
 import { useState, useEffect } from "react"
 
 const DietFilters = () => {

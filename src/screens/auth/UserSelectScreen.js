@@ -10,7 +10,6 @@ const UserSelect = () => {
         console.log(userType);
       }, [userType]);
 
-
     return (
         <View style={styles.container}>
             <LoginButton text="Local" onPress={() => setUserType(0)}/>

@@ -8,9 +8,9 @@ const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
-    {/* <Stack.Screen name="Login" component={Login} /> */}
-    {/* <Stack.Screen name="UserSelect" component={UserSelect} />   */}
+    <Stack.Screen name="Login" component={Login} />
+    <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Screen name="UserSelect" component={UserSelect} />  
     <Stack.Screen name="DietFilters" component={DietFilters} />
   </Stack.Navigator>
 );
