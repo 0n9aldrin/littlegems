@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, Image } from "react-native";
+import Icon from "react-native-vector-icons/AntDesign"
 
 const FilterButton = ({ text, add, remove }) => {
   const [textWidth, setTextWidth] = useState(null);
@@ -23,7 +24,19 @@ const FilterButton = ({ text, add, remove }) => {
         onPress={() => pressHandler()}
       style={[styles.container, { width: textWidth ? textWidth + 60 : "auto" }, isActive ? {backgroundColor: "black", borderColor: "black"} : {backgroundColor: "white"},]}
     >
-      <Text style={[styles.plus, isActive ? {color: "white"} : {color: "black"},]}>+</Text>
+      {!isActive && <Icon
+        style={styles.plus}
+        size = {25}
+        color = {"black"}
+        name="plus"
+      />}
+      {isActive && <Icon
+        style={styles.plus}
+        size = {25}
+        color = {"white"}
+        name="minus"
+      />}
+      
       <Text style={[styles.text, isActive ? {color: "white"} : {color: "black"},]} onLayout={handleTextLayout}>
         {text}
       </Text>
@@ -41,7 +54,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 2,
     marginVertical: 5,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     marginRight: 12,
     height: 60,
   },
@@ -49,11 +62,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginHorizontal: 10,
     fontFamily: "Poppins-Regular",
+    // borderWidth: 1,
   },
   text: {
     fontSize: 20,
     fontFamily: "Poppins-Regular",
+    // borderWidth: 1,
   },
+  plus: {
+    // borderWidth: 1,
+  }
 });
 
 export default FilterButton;

@@ -29,10 +29,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: "20%",
   },
   slider: {
-    marginTop: "10%",
     width: "80%",
   },
   minVal: {
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
   radiusText: {
     marginTop: "5%",
     fontSize: 40,
-    fontFamily: "Poppins-Bold",
+    fontFamily: "Poppins-Regular",
   },
 });
 

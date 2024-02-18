@@ -40,31 +40,15 @@ const UserSelect = ({ navigation }) => {
     getPermissions();
   }, []);
   
+
+  const touristText = "Let us know about any dietary restrictions";
+  const localText = "How far are you willing to go?"
   const geocode = async () => {
     const geocodedLocation = await Location.geocodeAsync(address);
     console.log("Geocoded Address");
     console.log(geocodedLocation);
   };
 
-//   const onContinuePress = async () => {
-//     // Fetch the current location
-//     setIsLoading(true);
-//     const currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
-//     setLocation(currentLocation);
-
-//     if (userType === 1) {
-//       await newTourist({ dietary_restrictions: filters });
-//       navigation.navigate("Tourist Home Screen");
-//     }
-//     if (userType === 0) {
-//       const obj = reverseGeocode();
-//       console.log("here");
-//       console.log(obj);
-//       await newLocal({ lon: 20, lat: 20, dist: radius });
-//       navigation.navigate("Local Home Screen");
-//     }
-//     navigation.navigate("TouristHomeScreen");
-//   };
 const onContinuePress = async () => {
     setIsLoading(true);
     const currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
@@ -142,6 +126,9 @@ const onContinuePress = async () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.captionContainer}>
+        <Text style={styles.caption}>{userType ? touristText : localText}</Text>
+      </View>
       <View style={styles.selectionContainer}>
         {userType === 0 && (
           <RadiusSelector radius={radius} setRadius={setRadius} />
@@ -186,6 +173,7 @@ const styles = StyleSheet.create({
   },
   selectionContainer: {
     marginTop: "10%",
+    marginBottom: "20%",
   },
   subContainer: {
     backgroundColor: "#28637D",
@@ -221,6 +209,19 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Poppins-Bold",
     fontSize: 30,
+    textAlign: "center",
+  },
+  captionContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "10%",
+    maxWidth: "80%",
+    alignSelf: "center",
+  },
+  caption: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 17,
+    marginTop: 20,
     textAlign: "center",
   }
 });

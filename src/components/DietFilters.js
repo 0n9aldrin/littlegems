@@ -1,11 +1,5 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-  TextInput,
-} from "react-native";
+import React from 'react';
+import { View, Text, TouchableOpacity, Modal, TextInput, ScrollView, StyleSheet } from 'react-native';
 import FilterButton from "./FilterButton";
 import { useState, useEffect } from "react";
 
@@ -39,7 +33,6 @@ const DietFilters = ({ filters, setFilters, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Dietary Restrictions</Text>
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => setIsModalVisible(true)}
@@ -79,7 +72,17 @@ const DietFilters = ({ filters, setFilters, navigation}) => {
           </View>
         </View>
       </Modal>
-      <View style={styles.subContainer}>
+      <View>
+        
+      </View>
+      <ScrollView
+        contentContainerStyle={styles.subContainer} // Apply flexWrap here
+        horizontal={false}
+        maintainVisibleContentPosition={{
+            autoscrollToTopThreshold: 1,
+            minIndexForVisible: 1,
+          }}
+      >
         {filterOptions.map((filter, index) => (
           <FilterButton
             key={index}
@@ -88,33 +91,37 @@ const DietFilters = ({ filters, setFilters, navigation}) => {
             add={addFilter}
           />
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 };
 
+//if new filter is added make it automatically black
+
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
-    marginBottom: "-17%",
+    // borderWidth: 1,
+    alignItems: "center",
+    maxWidth: "90%",
+    // marginBottom: "-10%",
   },
   subContainer: {
     flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  title: {
-    fontSize: 20,
-    fontFamily: "Poppins-Regular",
+    flexWrap: "wrap", // Apply flexWrap here
+    justifyContent: 'center', // Optional: align items in the center horizontally
+    // borderWidth: 1,
+    maxHeight: 70,
   },
   buttonContainer: {
     backgroundColor: "black",
     borderRadius: 12,
-    width: "85%",
+    width: "90%",
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     marginVertical: 5,
-    height: "25%",
+    height: 50,
   },
   buttonText: {
     color: "white",
@@ -127,15 +134,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     fontFamily: "Poppins-Regular",
-  },
-  continueContainer: {
-    alignItems: "center",
-  },
-  newFilter: {
-    backgroundColor: "white",
-    width: "80%",
-    borderBottomWidth: 2,
-    marginTop: "20%",
   },
   modalContent: {
     backgroundColor: "grey",
@@ -150,19 +148,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
   },
-  addFilterText: {
-    textAlign: "left",
-    color: "white",
-    fontSize: 15,
-    fontFamily: "Poppins-Regular",
-  },
-  addButtonContainer: {
-    borderWidth: 1,
-    backgroundColor: "black",
-    padding: 10,
-    borderRadius: 10,
-    width: "45%",
-    alignItems: "center",
+  newFilter: {
+    backgroundColor: "white",
+    width: "80%",
+    borderBottomWidth: 2,
+    marginTop: "20%",
   },
   subButtonContainer: {
     marginTop: "35%",
@@ -172,6 +162,14 @@ const styles = StyleSheet.create({
     height: "20%",
     alignItems: "center",
   },
+  addButtonContainer: {
+    borderWidth: 1,
+    backgroundColor: "black",
+    padding: 10,
+    borderRadius: 10,
+    width: "45%",
+    alignItems: "center",
+  },
   cancelButtonContainer: {
     borderWidth: 2,
     borderRadius: 10,
@@ -179,22 +177,14 @@ const styles = StyleSheet.create({
     width: "45%",
     alignItems: "center",
   },
-  cancelButtonText: {
+  addFilterText: {
+    textAlign: "left",
+    color: "white",
     fontSize: 15,
     fontFamily: "Poppins-Regular",
   },
-  continueSubContainer: {
-    backgroundColor: "black",
-    borderRadius: "100%",
-    width: "70%",
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  continueText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
+  cancelButtonText: {
+    fontSize: 15,
     fontFamily: "Poppins-Regular",
   },
 });
