@@ -24,6 +24,7 @@ import { api } from "../../../convex/_generated/api";
 
 const TouristHomeScreen = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [stringDate, setStringDate] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
@@ -38,6 +39,7 @@ const TouristHomeScreen = ({ navigation }) => {
   const [noResults, setNoResults] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [noteText, setNoteText] = useState("");
+  const [hasPaid, setHasPaid] = useState(false);
   const inputRef = useRef(null);
 
   const newRequest = useMutation(api.all_requests.insert);
@@ -94,12 +96,22 @@ const TouristHomeScreen = ({ navigation }) => {
 
   const onChangeTime = (event, selectedTime) => {
     setShowTimePicker(false);
-    // Handle selected time
+    const currentTime = selectedTime || time;
+    setTime(currentTime);
   };
 
   const handleSubmit = async () => {
-    console.log("Selected Date:", date.toDateString());
-    console.log("Selected Time:", date.toTimeString());
+    const dateTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      time.getHours(),
+      time.getMinutes()
+    );
+    console.log(
+      "Selected Date:",
+      dateTime.toLocaleString("en-US", { timeZone: "America/Los_Angeles" })
+    );
     console.log("Place: ", selectedPlace.name);
     console.log("Place Long: ", selectedPlace.long);
     console.log("Place Lat: ", selectedPlace.lat);
@@ -109,7 +121,9 @@ const TouristHomeScreen = ({ navigation }) => {
       loc: selectedPlace.name,
       lat: parseFloat(selectedPlace.lat),
       lon: parseFloat(selectedPlace.long),
-      time: date.toString(),
+      time: dateTime.toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles",
+      }),
       note: noteText,
     });
 
@@ -121,6 +135,14 @@ const TouristHomeScreen = ({ navigation }) => {
   const handleConfirmedSubmit = async () => {
     navigation.navigate("Chat", {
       prop1: match["match"],
+    });
+    setModalVisible(false);
+  };
+
+  const handlePayment = async () => {
+    setHasPaid(true);
+    navigation.navigate("Payment", {
+      prop1: () => setModalVisible(true),
     });
     setModalVisible(false);
   };
@@ -223,7 +245,7 @@ const TouristHomeScreen = ({ navigation }) => {
         </TouchableOpacity> */}
           <DateTimePicker
             testID="timePicker"
-            value={date}
+            value={time}
             mode="time"
             is24Hour={true}
             display="default"
@@ -291,23 +313,27 @@ const TouristHomeScreen = ({ navigation }) => {
                       </View>
                     </View>
                   </View>
-                  <View style={styles.payment}>
+                  <TouchableOpacity style={styles.payment} onPress={handlePayment}>
                     <IconFont name="apple-pay" size={20} color="#000" />
                     <Text
                       style={{
                         fontFamily: "Poppins-Regular",
                         fontSize: 16,
                         marginLeft: 10,
-                        marginRight: 110,
+                        marginRight: 100,
                       }}
                     >
-                      **** 2024
+                      **** **** **** 6557
                     </Text>
                     <Icons name="arrow-forward-ios" size={20} color="#000" />
-                  </View>
+                  </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={handleConfirmedSubmit}
-                    style={styles.buttonFilter}
+                    onPress={hasPaid ? handleConfirmedSubmit : null}
+                    style={[
+                      styles.buttonFilter,
+                      !hasPaid && styles.disabledButton,
+                    ]}
+                    disabled={!hasPaid}
                   >
                     <Text style={styles.filterButtonText}>Confirm</Text>
                   </TouchableOpacity>
@@ -442,6 +468,16 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
   },
+  disabledButton: {
+    backgroundColor: "rgba(40, 99, 125, 0.3)",
+    borderRadius: 100,
+    width: "70%",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    marginBottom: 20,
+  },
   filterButtonText: {
     color: "white",
     fontSize: 18,
@@ -522,6 +558,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins-Regular",
     color: "black",
+    alignSelf: "center",
   },
   modalTextCancel: {
     fontSize: 18,
