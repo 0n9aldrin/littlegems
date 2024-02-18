@@ -1,6 +1,13 @@
 import LoginButton from "../../components/LoginButton";
 
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { useState, useEffect } from "react";
 
 import RadiusSelector from "../../components/RadiusSelector";
@@ -32,42 +39,48 @@ const UserSelect = ({ navigation }) => {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
       setLocation(location);
       console.log("Location:");
       console.log(location);
     };
     getPermissions();
   }, []);
-  
 
   const touristText = "Let us know about any dietary restrictions";
-  const localText = "How far are you willing to go?"
+  const localText = "How far are you willing to go?";
   const geocode = async () => {
     const geocodedLocation = await Location.geocodeAsync(address);
     console.log("Geocoded Address");
     console.log(geocodedLocation);
   };
 
-const onContinuePress = async () => {
+  const onContinuePress = async () => {
     setIsLoading(true);
-    const currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+    const currentLocation = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+    });
     setLocation(currentLocation);
-  
+
     // Print longitude and latitude to the console
     console.log("Longitude:", currentLocation.coords.longitude);
     console.log("Latitude:", currentLocation.coords.latitude);
-  
+
     if (userType === 1) {
       await newTourist({ dietary_restrictions: filters });
       navigation.navigate("Tourist Home Screen");
     }
     if (userType === 0) {
-      await newLocal({ lon: currentLocation.coords.longitude, lat: currentLocation.coords.latitude, dist: radius });
+      await newLocal({
+        lon: currentLocation.coords.longitude,
+        lat: currentLocation.coords.latitude,
+        dist: radius,
+      });
       navigation.navigate("Local Home Screen");
     }
   };
-  
 
   const reverseGeocode = async () => {
     const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
@@ -88,73 +101,75 @@ const onContinuePress = async () => {
   };
 
   return (
-    <View>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
+      <View>
+        <View style={styles.container}>
+          <View style={styles.titleContainer}>
             <Text style={styles.title}>Are you a tourist or a local?</Text>
-        </View>
-        <TouchableOpacity
-          style={[
-            styles.subContainer,
-            { backgroundColor: userType ? "white" : "#28637D" },
-          ]}
-          onPress={pressHandler}
-        >
-          <Text
-            style={[
-              styles.buttonText,
-              { color: userType ? "#28637D" : "white" },
-            ]}
-          >
-            Local
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.subContainer,
-            { backgroundColor: userType ? "#28637D" : "white" },
-          ]}
-          onPress={pressHandler}
-        >
-          <Text
-            style={[
-              styles.buttonText,
-              { color: userType ? "white" : "#28637D" },
-            ]}
-          >
-            Tourist
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.captionContainer}>
-        <Text style={styles.caption}>{userType ? touristText : localText}</Text>
-      </View>
-      <View style={styles.selectionContainer}>
-        {userType === 0 && (
-          <RadiusSelector radius={radius} setRadius={setRadius} />
-        )}
-        {userType === 1 && (
-          <DietFilters filters={filters} setFilters={setFilters} />
-        )}
-      </View>
-      <View style={styles.continueWrapper}>
-        {!isLoading && (
-          <LoginButton text="Continue" onPress={onContinuePress} />
-        )}
-        {isLoading && (
-          <View
-            style={[
-              styles.smallContainer,
-              { backgroundColor: "white", color: "#28637D" },
-            ]}
-          >
-            <Text style={[styles.loadingText, { color: "#28637D" }]}>
-              Loading...
-            </Text>
           </View>
-        )}
+          <TouchableOpacity
+            style={[
+              styles.subContainer,
+              { backgroundColor: userType ? "white" : "#28637D" },
+            ]}
+            onPress={pressHandler}
+          >
+            <Text
+              style={[
+                styles.buttonText,
+                { color: userType ? "#28637D" : "white" },
+              ]}
+            >
+              Local
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.subContainer,
+              { backgroundColor: userType ? "#28637D" : "white" },
+            ]}
+            onPress={pressHandler}
+          >
+            <Text
+              style={[
+                styles.buttonText,
+                { color: userType ? "white" : "#28637D" },
+              ]}
+            >
+              Tourist
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.captionContainer}>
+          <Text style={styles.caption}>
+            {userType ? touristText : localText}
+          </Text>
+        </View>
+        <View style={styles.selectionContainer}>
+          {userType === 0 && (
+            <RadiusSelector radius={radius} setRadius={setRadius} />
+          )}
+          {userType === 1 && (
+            <DietFilters filters={filters} setFilters={setFilters} />
+          )}
+        </View>
+        <View style={styles.continueWrapper}>
+          {!isLoading && (
+            <LoginButton text="Continue" onPress={onContinuePress} />
+          )}
+          {isLoading && (
+            <View
+              style={[
+                styles.smallContainer,
+                { backgroundColor: "white", color: "#28637D" },
+              ]}
+            >
+              <Text style={[styles.loadingText, { color: "#28637D" }]}>
+                Loading...
+              </Text>
+            </View>
+          )}
+        </View>
       </View>
-    </View>
   );
 };
 
@@ -223,7 +238,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginTop: 20,
     textAlign: "center",
-  }
+  },
 });
 
 export default UserSelect;

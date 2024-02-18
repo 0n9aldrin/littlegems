@@ -1,9 +1,21 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Modal, TextInput, ScrollView, StyleSheet } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import FilterButton from "./FilterButton";
 import { useState, useEffect } from "react";
+import Icon from "react-native-vector-icons/Octicons";
+import IconAnt from "react-native-vector-icons/AntDesign";
 
-const DietFilters = ({ filters, setFilters, navigation}) => {
+const DietFilters = ({ filters, setFilters, navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [filterOptions, setFilterOptions] = useState(["Vegan", "Vegetarian"]);
   const [newFilter, setNewFilter] = useState("");
@@ -42,46 +54,51 @@ const DietFilters = ({ filters, setFilters, navigation}) => {
       </TouchableOpacity>
       <Modal
         visible={isModalVisible}
-        onRequestClose={() => setIsModalVisible(false)}
+        // onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={styles.modalContent}>
           <View style={styles.modalSubContainer}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <Icon size={25} color={"black"} name="diff-added" />
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16 }}>
+                Add a Dietary Restriction
+              </Text>
+              <TouchableOpacity onPress={cancelHandler}>
+                <IconAnt size={25} color={"black"} name="close" />
+              </TouchableOpacity>
+            </View>
             <TextInput
               style={styles.newFilter}
               onChangeText={(inputText) => setNewFilter(inputText)}
               value={newFilter}
-              placeholder="Enter new filter"
+              placeholder="Enter new restriction"
               placeholderTextColor="grey"
             />
             <View style={styles.subButtonContainer}>
+              <TouchableOpacity style={styles.cancelButtonContainer}>
+                <Text style={styles.cancelButtonText} onPress={cancelHandler}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.addButtonContainer}
                 onPress={() => addFilterHandler()}
               >
                 <Text style={styles.addFilterText}>Add Filter</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cancelButtonContainer}>
-                <Text
-                  style={styles.cancelButtonText}
-                  onPress={() => cancelHandler()}
-                >
-                  Cancel
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
-      <View>
-        
-      </View>
       <ScrollView
         contentContainerStyle={styles.subContainer} // Apply flexWrap here
-        horizontal={false}
-        maintainVisibleContentPosition={{
-            autoscrollToTopThreshold: 1,
-            minIndexForVisible: 1,
-          }}
+        // horizontal={false}
       >
         {filterOptions.map((filter, index) => (
           <FilterButton
@@ -109,12 +126,12 @@ const styles = StyleSheet.create({
   subContainer: {
     flexDirection: "row",
     flexWrap: "wrap", // Apply flexWrap here
-    justifyContent: 'center', // Optional: align items in the center horizontally
+    justifyContent: "center", // Optional: align items in the center horizontally
     // borderWidth: 1,
     maxHeight: 70,
   },
   buttonContainer: {
-    backgroundColor: "black",
+    backgroundColor: "#28637D",
     borderRadius: 12,
     width: "90%",
     alignItems: "center",
@@ -143,19 +160,22 @@ const styles = StyleSheet.create({
   },
   modalSubContainer: {
     width: "75%",
-    height: "30%",
+    height: "27%",
     alignItems: "center",
     backgroundColor: "white",
     borderRadius: 20,
+    padding: 20,
   },
   newFilter: {
     backgroundColor: "white",
-    width: "80%",
+    width: "92%",
     borderBottomWidth: 2,
-    marginTop: "20%",
+    marginTop: 30,
+    fontSize: 18,
+    fontFamily: "Poppins-Regular",
   },
   subButtonContainer: {
-    marginTop: "35%",
+    marginTop: 30,
     width: "75%",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -163,16 +183,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addButtonContainer: {
-    borderWidth: 1,
-    backgroundColor: "black",
+    backgroundColor: "#28637D",
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 100,
     width: "45%",
     alignItems: "center",
   },
   cancelButtonContainer: {
     borderWidth: 2,
-    borderRadius: 10,
+    borderRadius: 100,
+    borderColor: "#28637D",
     padding: 10,
     width: "45%",
     alignItems: "center",
