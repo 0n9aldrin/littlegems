@@ -1,5 +1,11 @@
 import LoginButton from "../../components/LoginButton";
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { useConvexAuth } from "convex/react";
 import React from "react";
@@ -27,6 +33,7 @@ const Login = ({ navigation }) => {
       // This is an important step,
       // This indicates the user is signed in
       await setActive({ session: completeSignIn.createdSessionId });
+      navigation.navigate("UserSelect");
     } catch (err) {
       console.log(err);
     }
@@ -45,19 +52,28 @@ const Login = ({ navigation }) => {
       </View>
       <View style={styles.passwordInputContainer}>
         <Text style={styles.passwordTitle}>Password</Text>
-          <TextInput
-            style={styles.passwordInput}
-            value={password}
-            placeholder=""
-            secureTextEntry={true}
-            onChangeText={(password) => setPassword(password)}
-          />
+        <TextInput
+          style={styles.passwordInput}
+          value={password}
+          placeholder=""
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+        />
       </View>
       <View style={styles.buttonWrapper}>
-        <LoginButton style={styles.loginButton} text={"Login"} onPress={onSignInPress} />
+        <LoginButton
+          style={styles.loginButton}
+          text={"Login"}
+          onPress={onSignInPress}
+        />
         <View style={styles.textWrapper}>
           <Text style={styles.text}>Don't have an account </Text>
-          <TouchableOpacity style={styles.signUpTextWrapper} onPress={() => navigation.navigate("SignUp")}><Text style={styles.signUpText}>Sign Up</Text></TouchableOpacity>
+          <TouchableOpacity
+            style={styles.signUpTextWrapper}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={styles.signUpText}>Sign Up</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -77,11 +93,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 12,
   },
-  signUpTextWrapper: {
-
-  },
+  signUpTextWrapper: {},
   signUpText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   passwordInput: {
     borderBottomWidth: 1,
@@ -116,8 +130,8 @@ const styles = StyleSheet.create({
     marginTop: 80,
     width: "100%",
     // borderWidth: 1,
-    alignItems: 'center',
-  }
+    alignItems: "center",
+  },
   //combine same styles
 });
 

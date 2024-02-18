@@ -57,6 +57,9 @@ const touristsData = [
   // ... more items
 ];
 
+// get curr user lat and lon
+//
+
 const TouristTile = ({
   name,
   rating,
@@ -200,7 +203,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
-    marginBottom:20,
+    marginBottom: 20,
   },
   filterButtonText: {
     color: "white",

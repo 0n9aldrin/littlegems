@@ -10,7 +10,7 @@ import {
 import { useSignUp } from "@clerk/clerk-expo";
 import LoginButton from "../../components/LoginButton";
 
-export default function SignUpScreen() {
+export default function SignUpScreen({ navigation }) {
   const { isLoaded, signUp, setActive } = useSignUp();
 
   const [firstName, setFirstName] = React.useState("");
@@ -56,6 +56,7 @@ export default function SignUpScreen() {
       });
 
       await setActive({ session: completeSignUp.createdSessionId });
+      navigation.navigate("UserSelect");
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
     }
@@ -67,7 +68,7 @@ export default function SignUpScreen() {
         <View style={styles.subContainer}>
           <View style={styles.usernameInputContainer}>
             <TextInput
-            style={styles.usernameInput}
+              style={styles.usernameInput}
               autoCapitalize="none"
               value={firstName}
               placeholder="First Name..."
@@ -109,21 +110,21 @@ export default function SignUpScreen() {
           <View style={styles.buttonWrapper}>
             <LoginButton text={"Sign up"} onPress={onSignUpPress} />
           </View>
-
         </View>
       )}
       {pendingVerification && (
-        <View>
-          <View>
+        <View style={styles.subContainer}>
+          <View style={styles.usernameInputContainer}>
             <TextInput
+              style={styles.usernameInput}
               value={code}
               placeholder="Code..."
               onChangeText={(code) => setCode(code)}
             />
           </View>
-          <TouchableOpacity onPress={onPressVerify}>
-            <Text>Verify Email</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonWrapper}>
+            <LoginButton text={"Verify Email"} onPress={onPressVerify} />
+          </View>
         </View>
       )}
     </SafeAreaView>
@@ -161,5 +162,5 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     width: "80%",
     marginTop: "20%",
-  }
+  },
 });
