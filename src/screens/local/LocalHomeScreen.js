@@ -116,11 +116,8 @@ const TouristTile = ({
                 <Text style={styles.rating}>{rating}</Text>
               </View>
             </View>
-            <View style={styles.tileInfoContainer}>
               <Text style={styles.location}>{location}</Text>
-              <Text style={styles.dot}>•</Text>
               <Text style={styles.dateTime}>{dateTime}</Text>
-            </View>
             <Text style={styles.bio}>{bio}</Text>
           </View>
         </View>
@@ -222,7 +219,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 10,
     borderWidth: 2,
-    borderColor: "#EEEEEE",
+    borderColor: "rgba(40, 99, 125, 0.3)",
     borderRadius: 20,
   },
   tileHeaderContainer: {
@@ -248,7 +245,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Bold",
   },
   ratingBubble: {
-    backgroundColor: "#EEEEEE", // Background color of the bubble
+    backgroundColor: "rgba(40, 99, 125, 0.3)", // Background color of the bubble
     paddingHorizontal: 10,
     paddingVertical: 5, // Add padding to create space around the text
     borderRadius: 20, // Make it round
@@ -259,16 +256,12 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 14,
-    fontFamily: "Poppins-Regular",
-  },
-  dot: {
-    fontSize: 14,
-    marginHorizontal: 5,
-    fontFamily: "Poppins-Regular",
+    fontFamily: "Poppins-Italic",
   },
   dateTime: {
     fontSize: 14,
     fontFamily: "Poppins-Regular",
+    marginBottom: 5,
   },
   bio: {
     fontSize: 14,
@@ -279,7 +272,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   acceptButton: {
-    backgroundColor: "green",
+    backgroundColor: "#28637D",
     padding: 10,
     borderRadius: 60,
     marginTop: 10,
