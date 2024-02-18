@@ -63,7 +63,7 @@ const PhotoVerification = ({navigation}) => {
           <Image source={{ uri: image }} style={styles.imagePreview} />
         ) : (
           <Text style={styles.uploadText}>
-            Drag & drop the receipt or select from photos
+            Select a receipt/selfie with the tourist from photos
           </Text>
         )}
       </TouchableOpacity>
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   uploadText: {
     textAlign: "center",
     color: "#888",
+    fontFamily: "Poppins-Regular"
   },
   submitButton: {
     backgroundColor: "#28637D",
