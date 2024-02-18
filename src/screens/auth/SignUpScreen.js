@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import LoginButton from "../../components/LoginButton";
-import Login from "./LoginScreen";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();

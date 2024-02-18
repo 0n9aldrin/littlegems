@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     },
     title : {
         fontSize: 20,
+        fontFamily: "Poppins-Regular",
     },
     buttonContainer: {
         backgroundColor: "black",
@@ -101,12 +102,14 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "white",
         fontSize: 20,
+        fontFamily: "Poppins-Regular",
     },
     plus: {
         color: "white",
         fontSize: 30,
         justifyContent: "center",
-        textAlign: "center"
+        textAlign: "center",
+        fontFamily: "Poppins-Regular",
     },
     continueContainer: {
         alignItems: "center",
@@ -134,6 +137,7 @@ const styles = StyleSheet.create({
         textAlign: "left",
         color: "white",
         fontSize: 15,
+        fontFamily: "Poppins-Regular",
     },
     addButtonContainer: {
         borderWidth: 1,
@@ -160,6 +164,7 @@ const styles = StyleSheet.create({
     },
     cancelButtonText: {
         fontSize: 15,
+        fontFamily: "Poppins-Regular",
     },
     continueSubContainer: {
         backgroundColor: "black",
@@ -173,6 +178,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 18,
         fontWeight: "bold",
+        fontFamily: "Poppins-Regular",
     }
 })
 

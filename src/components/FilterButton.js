@@ -48,9 +48,11 @@ const styles = StyleSheet.create({
   plus: {
     fontSize: 30,
     marginHorizontal: 10,
+    fontFamily: "Poppins-Regular",
   },
   text: {
     fontSize: 20,
+    fontFamily: "Poppins-Regular",
   },
 });
 

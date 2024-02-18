@@ -56,7 +56,7 @@ export default function App() {
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <NavigationContainer>
-          <TouristNavigator />
+          <AuthNavigator />
         </NavigationContainer>
       </ConvexProviderWithClerk>
     </ClerkProvider>
