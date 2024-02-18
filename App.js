@@ -11,7 +11,9 @@ import { ConvexProviderWithClerk } from "convex/react-clerk";
 import Constants from "expo-constants";
 import LocalNavigator from "./src/navigation/LocalNavigation";
 import TouristNavigator from "./src/navigation/TouristNavigation";
+import { LogBox } from 'react-native';
 
+LogBox.ignoreAllLogs();
 SplashScreen.preventAutoHideAsync();
 
 const fetchFonts = () => {

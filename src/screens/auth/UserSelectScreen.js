@@ -52,18 +52,18 @@ const UserSelect = ({ navigation }) => {
     const currentLocation = await Location.getCurrentPositionAsync({});
     setLocation(currentLocation);
 
-    if (userType === 1) {
+    if (userType == 1) {
       await newTourist({ dietary_restrictions: filters });
       navigation.navigate("Tourist Home Screen");
     }
-    if (userType === 0) {
+    if (userType == 0) {
       const obj = reverseGeocode();
       console.log("here");
       console.log(obj);
       await newLocal({ lon: 20, lat: 20, dist: radius });
       navigation.navigate("Local Home Screen");
     }
-    navigation.navigate("TouristHomeScreen");
+    // navigation.navigate("Tourist Home Screen");
   };
 
   const reverseGeocode = async () => {

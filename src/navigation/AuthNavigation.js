@@ -9,6 +9,7 @@ import Chat from "../screens/chat/Chat";
 import LocalHomeScreen from "../screens/local/LocalHomeScreen";
 import TouristHomeScreen from "../screens/tourist/TouristHomeScreen";
 import PhotoVerification from "../screens/chat/PhotoVerification";
+import PaymentScreen from "../screens/tourist/PaymentScreen";
 const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => (
@@ -21,11 +22,13 @@ const AuthNavigator = () => (
     <Stack.Screen name="RadiusSelector" component={RadiusSelector} />
     <Stack.Screen name="Photo Verification" component={PhotoVerification} />
     <Stack.Screen name="Chat" component={Chat} />
+    <Stack.Screen name="Payment" component={PaymentScreen} />
     {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
     {/* <Stack.Screen name="Login" component={Login} /> */}
     {/* <Stack.Screen name="UserSelect" component={UserSelect} />   */}
     {/* <Stack.Screen name="DietFilters" component={DietFilters} /> */}
     <Stack.Screen name="Local Home Screen" component={LocalHomeScreen} />
+    <Stack.Screen name="Tourist Home Screen" component={TouristHomeScreen} />
   </Stack.Navigator>
 );
 

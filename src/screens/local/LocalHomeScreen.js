@@ -173,7 +173,7 @@ const LocalHomeScreen = ({ navigation }) => {
       </TouchableOpacity> */}
       <FlatList
         data={allRequests}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <TouristTile
             name={item.name}
