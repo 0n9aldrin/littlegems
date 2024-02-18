@@ -9,7 +9,7 @@ import {
 import FilterButton from "./FilterButton";
 import { useState, useEffect } from "react";
 
-const DietFilters = ({ filters, setFilters }) => {
+const DietFilters = ({ filters, setFilters, navigation}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [filterOptions, setFilterOptions] = useState(["Vegan", "Vegetarian"]);
   const [newFilter, setNewFilter] = useState("");
@@ -89,11 +89,6 @@ const DietFilters = ({ filters, setFilters }) => {
           />
         ))}
       </View>
-      <View style={styles.continueContainer}>
-        <TouchableOpacity style={styles.continueSubContainer} onPress={{}}>
-          <Text style={styles.continueText}>Continue</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -101,7 +96,7 @@ const DietFilters = ({ filters, setFilters }) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
-    marginVertical: "17%",
+    // marginVertical: "5%",
   },
   subContainer: {
     flexDirection: "row",
@@ -114,12 +109,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: "black",
     borderRadius: 12,
-    width: "75%",
+    width: "85%",
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     marginVertical: 5,
-    height: "17%",
+    height: "25%",
   },
   buttonText: {
     color: "white",
