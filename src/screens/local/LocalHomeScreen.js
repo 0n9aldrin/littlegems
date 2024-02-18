@@ -12,6 +12,9 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+
 // Dummy data array
 const touristsData = [
   {
@@ -58,7 +61,6 @@ const touristsData = [
 ];
 
 // get curr user lat and lon
-//
 
 const TouristTile = ({
   name,
@@ -67,9 +69,16 @@ const TouristTile = ({
   dateTime,
   bio,
   profileImage,
+  id,
+  navigation,
 }) => {
-  const [expanded, setExpanded] = useState(false);
-  const expandAnimation = useRef(new Animated.Value(0)).current;
+  const [expanded, setExpanded] = React.useState(false);
+  const expandAnimation = React.useRef(new Animated.Value(0)).current;
+
+  const myData = useQuery(api.locals.getSelf);
+  // console.log("mydata");
+  // console.log(myData);
+  // const requestList = allRequests({ lat: 10, lon: 10, dist: 10 });
 
   const toggleExpand = () => {
     Animated.timing(expandAnimation, {
@@ -87,6 +96,8 @@ const TouristTile = ({
     }),
   };
 
+  const editMatch = useMutation(api.all_requests.change);
+
   const handleAccept = () => {
     Alert.alert(
       "Confirm Request",
@@ -99,8 +110,11 @@ const TouristTile = ({
         {
           text: "Confirm",
           onPress: () => {
-            // Handle confirmation logic here
+            editMatch({ id: id });
             console.log(`${name}'s request confirmed`);
+            navigation.navigate("Chat", {
+              prop1: name,
+            });
           },
         },
       ]
@@ -119,8 +133,8 @@ const TouristTile = ({
                 <Text style={styles.rating}>{rating}</Text>
               </View>
             </View>
-              <Text style={styles.location}>{location}</Text>
-              <Text style={styles.dateTime}>{dateTime}</Text>
+            <Text style={styles.location}>{location}</Text>
+            <Text style={styles.dateTime}>{dateTime}</Text>
             <Text style={styles.bio}>{bio}</Text>
           </View>
         </View>
@@ -134,10 +148,16 @@ const TouristTile = ({
   );
 };
 
-const LocalHomeScreen = () => {
+const LocalHomeScreen = ({ navigation }) => {
   const onPressFilter = () => {
     console.log("Gilter pressed.");
   };
+  const allRequests = useQuery(api.all_requests.get, {
+    lat: 10,
+    lon: 10,
+    limit: 99999,
+  });
+  console.log(allRequests);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -152,16 +172,20 @@ const LocalHomeScreen = () => {
         <Text style={styles.filterButtonText}>Filter</Text>
       </TouchableOpacity> */}
       <FlatList
-        data={touristsData}
+        data={allRequests}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouristTile
             name={item.name}
-            rating={item.rating}
-            location={item.location}
-            dateTime={item.dateTime}
-            bio={item.bio}
-            profileImage={item.profileImage}
+            rating={4.4}
+            location={item.loc}
+            dateTime={item.time}
+            bio={item.note}
+            id={item._id}
+            profileImage={
+              "https://s3-alpha-sig.figma.com/img/fd16/f7c0/f7413b2e46fd5b05c964dd658938cd24?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kGuzGIOB9ol9Vbu8w-W47Gyk7nKDWUWhkjjYdCyeWep4IAptjL-JPwxafzQkabUDDGVJZcZuZu8WCsQWKliOmhNVCsQUGPLfolSzpBhFBVlr~RP~8o~uQWjqOlA0-oya-~L6Ytcyrb2ufynAHcvViB~RQOS4XpdOkXVC71LzISDtpggjkwWycXJWrQyrzyMvEtu9FghZjyOJRYitP0L3-Iu0VHbo~6tZIph8zzOVbOPOvpuj71SUtwhA2uUO9-PsKhyao9TYfJ0k1mUrg8WN40~fCeH4tNAj70m~B0H0qQEi79-FJB20B8yazYq5g3Y23OhI7vT0uQDSo1L6bv-CAw__"
+            }
+            navigation={navigation}
           />
         )}
       />

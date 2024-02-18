@@ -4,6 +4,7 @@ import { v } from "convex/values";
 
 function haversine(lat1, lon1, lat2, lon2) {
   // Radius of the Earth in miles
+  console.log(lat1);
   const R = 3958.8;
 
   // Convert latitude and longitude from degrees to radians
@@ -24,11 +25,27 @@ function haversine(lat1, lon1, lat2, lon2) {
   return distance;
 }
 
-export const createRequest = mutation({
-  args: { text: v.string() },
+export const insert = mutation({
+  args: {
+    loc: v.any(),
+    lat: v.any(),
+    lon: v.any(),
+    time: v.any(),
+    note: v.any(),
+  },
   handler: async (ctx, args) => {
-    const taskId = await ctx.db.insert("tasks", { text: args.text });
-    // do something with `taskId`
+    const identity = await ctx.auth.getUserIdentity();
+    const taskId = await ctx.db.insert("all_requests", {
+      time: args.time,
+      loc: args.loc,
+      lat: args.lat,
+      lon: args.lon,
+      name: identity.name,
+      tokenIdentifier: identity.tokenIdentifier,
+      note: args.note,
+      match: "",
+    });
+    return taskId;
   },
 });
 
@@ -36,13 +53,43 @@ export const get = query({
   args: { lat: v.float64(), lon: v.float64(), limit: v.float64() },
   handler: async (ctx, args) => {
     return await ctx.db
-      .query("requests")
+      .query("all_requests")
       .filter((q) =>
         q.lte(
-          haversine(q.field("lat"), q.field("lon"), args.lat, args.lon),
+          q.add(
+            q.mul(
+              q.sub(q.field("lat"), args.lat),
+              q.sub(q.field("lat"), args.lat)
+            ),
+            q.mul(
+              q.sub(q.field("lon"), args.lon),
+              q.sub(q.field("lon"), args.lon)
+            )
+          ),
           args.limit
         )
       )
       .collect();
+  },
+});
+
+export const get_with_id = query({
+  args: {
+    id: v.any(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
+  },
+});
+
+export const change = mutation({
+  args: {
+    id: v.any(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    const { id } = args;
+    console.log(await ctx.db.get(id));
+    await ctx.db.patch(id, { match: identity.name });
   },
 });
