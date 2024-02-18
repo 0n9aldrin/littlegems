@@ -7,15 +7,18 @@ import UserSelect from "../screens/auth/UserSelectScreen";
 import RadiusSelector from "../components/RadiusSelector";
 import Chat from "../screens/chat/Chat";
 import LocalHomeScreen from "../screens/local/LocalHomeScreen";
+import PhotoVerification from "../screens/chat/PhotoVerification";
 const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Chat" component={Chat} />
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="UserSelect" component={UserSelect} />
     <Stack.Screen name="DietFilters" component={DietFilters} />
     <Stack.Screen name="RadiusSelector" component={RadiusSelector} />
+    <Stack.Screen name="Photo Verification" component={PhotoVerification} />
     {/* <Stack.Screen name="Chat" component={Chat} /> */}
     {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
     {/* <Stack.Screen name="Login" component={Login} /> */}
