@@ -29,6 +29,9 @@ const AuthNavigator = () => (
     {/* <Stack.Screen name="DietFilters" component={DietFilters} /> */}
     <Stack.Screen name="Local Home Screen" component={LocalHomeScreen} />
     <Stack.Screen name="Tourist Home Screen" component={TouristHomeScreen} />
+    <Stack.Screen name="Chat" component={Chat} />
+    {/* <Stack.Screen name="Local Home Screen" component={LocalHomeScreen} /> */}
+    {/* <Stack.Screen name="TouristHomeScreen" component={TouristHomeScreen} /> */}
   </Stack.Navigator>
 );
 

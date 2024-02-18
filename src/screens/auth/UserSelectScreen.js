@@ -32,26 +32,27 @@ const UserSelect = ({ navigation }) => {
         return;
       }
 
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currentLocation);
+      let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      setLocation(location);
       console.log("Location:");
-      console.log(currentLocation);
+      console.log(location);
     };
     getPermissions();
   }, []);
-
+  
   const geocode = async () => {
     const geocodedLocation = await Location.geocodeAsync(address);
     console.log("Geocoded Address");
     console.log(geocodedLocation);
   };
 
-  const onContinuePress = async () => {
-    // Fetch the current location
-    setIsLoading(true);
-    const currentLocation = await Location.getCurrentPositionAsync({});
-    setLocation(currentLocation);
+//   const onContinuePress = async () => {
+//     // Fetch the current location
+//     setIsLoading(true);
+//     const currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+//     setLocation(currentLocation);
 
+<<<<<<< HEAD
     if (userType == 1) {
       await newTourist({ dietary_restrictions: filters });
       navigation.navigate("Tourist Home Screen");
@@ -64,7 +65,40 @@ const UserSelect = ({ navigation }) => {
       navigation.navigate("Local Home Screen");
     }
     // navigation.navigate("Tourist Home Screen");
+=======
+//     if (userType === 1) {
+//       await newTourist({ dietary_restrictions: filters });
+//       navigation.navigate("Tourist Home Screen");
+//     }
+//     if (userType === 0) {
+//       const obj = reverseGeocode();
+//       console.log("here");
+//       console.log(obj);
+//       await newLocal({ lon: 20, lat: 20, dist: radius });
+//       navigation.navigate("Local Home Screen");
+//     }
+//     navigation.navigate("TouristHomeScreen");
+//   };
+const onContinuePress = async () => {
+    setIsLoading(true);
+    const currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+    setLocation(currentLocation);
+  
+    // Print longitude and latitude to the console
+    console.log("Longitude:", currentLocation.coords.longitude);
+    console.log("Latitude:", currentLocation.coords.latitude);
+  
+    if (userType === 1) {
+      await newTourist({ dietary_restrictions: filters });
+      navigation.navigate("Tourist Home Screen");
+    }
+    if (userType === 0) {
+      await newLocal({ lon: currentLocation.coords.longitude, lat: currentLocation.coords.latitude, dist: radius });
+      navigation.navigate("Local Home Screen");
+    }
+>>>>>>> 00b2b41e5a3c2b4930c9319ed258c5b477bedb50
   };
+  
 
   const reverseGeocode = async () => {
     const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
@@ -87,6 +121,9 @@ const UserSelect = ({ navigation }) => {
   return (
     <View>
       <View style={styles.container}>
+        <View style={styles.titleContainer}>
+            <Text style={styles.title}>Are you a tourist or a local?</Text>
+        </View>
         <TouchableOpacity
           style={[
             styles.subContainer,
@@ -151,7 +188,7 @@ const UserSelect = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: "80%",
+    marginTop: "30%",
     alignItems: "center",
     justifyContent: "space-between",
   },
@@ -192,6 +229,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins-Bold",
   },
+  titleContainer: {
+    maxWidth: "80%",
+    marginBottom: "10%",
+  },
+  title: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 30,
+    textAlign: "center",
+  }
 });
 
 export default UserSelect;
