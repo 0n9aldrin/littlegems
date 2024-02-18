@@ -1,6 +1,6 @@
 import LoginButton from "../../components/LoginButton";
 
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { useState, useEffect } from "react";
 
 import RadiusSelector from "../../components/RadiusSelector";
@@ -20,7 +20,9 @@ const UserSelect = ({ navigation }) => {
   const [radius, setRadius] = useState(0);
 
   const [location, setLocation] = useState();
-  const [address, setAddress] = useState(); 
+  const [address, setAddress] = useState();
+  
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getPermissions = async() => {
@@ -46,6 +48,7 @@ const UserSelect = ({ navigation }) => {
 
   const onContinuePress = async () => {
     // Fetch the current location
+    setIsLoading(true);
     const currentLocation = await Location.getCurrentPositionAsync({});
     setLocation(currentLocation);
   
@@ -71,12 +74,23 @@ const UserSelect = ({ navigation }) => {
     console.log(reverseGeocodedAddress);
   };
 
+  const pressHandler = () => {
+    if (userType == 1) {
+        setUserType(0);
+    } else {
+        setUserType(1);
+    }
+  }
+
   return (
     <View>
       <View style={styles.container}>
-        <LoginButton text="Local" onPress={() => setUserType(0)} />
-        <View style={styles.space}></View>
-        <LoginButton text="Tourist" onPress={() => setUserType(1)} />
+        <TouchableOpacity style={[styles.subContainer, {backgroundColor: userType ? "white" : "#28637D"}]} onPress={pressHandler}>
+            <Text style={[styles.buttonText, {color: userType ? "#28637D" : "white"}]}>Local</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.subContainer, {backgroundColor: userType ? "#28637D" : "white"}]} onPress={pressHandler}>
+            <Text style={[styles.buttonText, {color: userType ? "white" : "#28637D"}]}>Tourist</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.selectionContainer}>
         {userType === 0 && (
@@ -87,7 +101,12 @@ const UserSelect = ({ navigation }) => {
         )}
       </View>
       <View style={styles.continueWrapper}>
-        <LoginButton text="Continue" onPress={onContinuePress} />
+        {!isLoading && <LoginButton text="Continue" onPress={onContinuePress} />}
+        {isLoading && 
+        (<View style={[styles.smallContainer,{backgroundColor: "white", color:"#28637D"}]}>
+            <Text style={[styles.loadingText, {color: "#28637D"}]}>Loading...</Text>
+        </View>)
+        }
       </View>
     </View>
   );
@@ -105,10 +124,36 @@ const styles = StyleSheet.create({
   continueWrapper: {
     // borderWidth: 1,
     alignItems: "center",
-    marginTop: "0%",
   },
   selectionContainer: {
     marginTop: "10%",
+  },
+  subContainer: {
+    backgroundColor: "#28637D",
+    borderRadius: 100,
+    width: "70%",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 15,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontFamily: "Poppins-Bold",
+  },
+  smallContainer: {
+    backgroundColor: "#28637D",
+    borderRadius: 100,
+    width: "70%",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loadingText: {
+    color: "white",
+    fontSize: 18,
+    fontFamily: "Poppins-Bold"
   }
 });
 

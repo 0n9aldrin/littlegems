@@ -96,7 +96,7 @@ const DietFilters = ({ filters, setFilters, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
-    // marginVertical: "5%",
+    marginBottom: "-17%",
   },
   subContainer: {
     flexDirection: "row",
