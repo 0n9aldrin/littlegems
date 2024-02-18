@@ -52,20 +52,6 @@ const UserSelect = ({ navigation }) => {
 //     const currentLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
 //     setLocation(currentLocation);
 
-<<<<<<< HEAD
-    if (userType == 1) {
-      await newTourist({ dietary_restrictions: filters });
-      navigation.navigate("Tourist Home Screen");
-    }
-    if (userType == 0) {
-      const obj = reverseGeocode();
-      console.log("here");
-      console.log(obj);
-      await newLocal({ lon: 20, lat: 20, dist: radius });
-      navigation.navigate("Local Home Screen");
-    }
-    // navigation.navigate("Tourist Home Screen");
-=======
 //     if (userType === 1) {
 //       await newTourist({ dietary_restrictions: filters });
 //       navigation.navigate("Tourist Home Screen");
@@ -96,7 +82,6 @@ const onContinuePress = async () => {
       await newLocal({ lon: currentLocation.coords.longitude, lat: currentLocation.coords.latitude, dist: radius });
       navigation.navigate("Local Home Screen");
     }
->>>>>>> 00b2b41e5a3c2b4930c9319ed258c5b477bedb50
   };
   
 

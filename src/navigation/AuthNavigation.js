@@ -21,7 +21,7 @@ const AuthNavigator = () => (
     <Stack.Screen name="DietFilters" component={DietFilters} />
     <Stack.Screen name="RadiusSelector" component={RadiusSelector} />
     <Stack.Screen name="Photo Verification" component={PhotoVerification} />
-    <Stack.Screen name="Chat" component={Chat} />
+    {/* <Stack.Screen name="Chat" component={Chat} /> */}
     <Stack.Screen name="Payment" component={PaymentScreen} />
     {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
     {/* <Stack.Screen name="Login" component={Login} /> */}
