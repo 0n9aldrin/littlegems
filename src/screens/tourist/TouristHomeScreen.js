@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -22,7 +22,7 @@ import axios from "axios";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 
-const TouristHomeScreen = () => {
+const TouristHomeScreen = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [stringDate, setStringDate] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -41,6 +41,9 @@ const TouristHomeScreen = () => {
   const inputRef = useRef(null);
 
   const newRequest = useMutation(api.all_requests.insert);
+  const [taskId, setTaskId] = useState("jh74tx5nd9h8z28kqrv8a31tv16kpvj5");
+
+  const match = useQuery(api.all_requests.get_with_id, { id: taskId });
 
   const handlePlaceSelect = (place) => {
     // Extract and store only the first two parts from the display_name
@@ -101,17 +104,24 @@ const TouristHomeScreen = () => {
     console.log("Place Long: ", selectedPlace.long);
     console.log("Place Lat: ", selectedPlace.lat);
     console.log("Note: ", noteText);
-    setModalVisible(true); // Show the modal
 
-    await newRequest({
-      loc: parseFloat(selectedPlace.name),
+    const id = await newRequest({
+      loc: selectedPlace.name,
       lat: parseFloat(selectedPlace.lat),
       lon: parseFloat(selectedPlace.long),
       time: date.toString(),
+      note: noteText,
     });
+
+    setTaskId(id);
+
+    setModalVisible(true); // Show the modal
   };
 
-  const handleConfirmedSubmit = async () => {};
+  const handleConfirmedSubmit = async () => {
+    navigation.navigate("Chat");
+    setModalVisible(false);
+  };
 
   const onCancel = () => {
     console.log("Request to cancel request in backend");
@@ -240,58 +250,64 @@ const TouristHomeScreen = () => {
           <View style={styles.overlay}>
             <View style={styles.modalContainer}>
               {/* Hang on */}
-              {/* <Text style={styles.modalText}>
-                Hang on we're finding a local!
-              </Text>
-              <ActivityIndicator size="large" color="#0000ff" />
-              <TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
-              <Text style={styles.modalTextCancel}>Cancel</Text>
-              </TouchableOpacity> */}
-              <Text style={styles.modalText}>You've been paired!</Text>
-              <View style={styles.tileContainerVertical}>
-                <View style={styles.tileContainer}>
-                  <Image
-                    source={{
-                      uri: "https://s3-alpha-sig.figma.com/img/fd16/f7c0/f7413b2e46fd5b05c964dd658938cd24?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kGuzGIOB9ol9Vbu8w-W47Gyk7nKDWUWhkjjYdCyeWep4IAptjL-JPwxafzQkabUDDGVJZcZuZu8WCsQWKliOmhNVCsQUGPLfolSzpBhFBVlr~RP~8o~uQWjqOlA0-oya-~L6Ytcyrb2ufynAHcvViB~RQOS4XpdOkXVC71LzISDtpggjkwWycXJWrQyrzyMvEtu9FghZjyOJRYitP0L3-Iu0VHbo~6tZIph8zzOVbOPOvpuj71SUtwhA2uUO9-PsKhyao9TYfJ0k1mUrg8WN40~fCeH4tNAj70m~B0H0qQEi79-FJB20B8yazYq5g3Y23OhI7vT0uQDSo1L6bv-CAw__",
-                    }}
-                    style={styles.profileImage}
-                  />
-                  <View style={styles.tileTextContainer}>
-                    <View style={styles.tileHeaderContainer}>
-                      <Text style={styles.name}>Marvis Ighedosa</Text>
-                      <View style={styles.ratingBubble}>
-                        <Text style={styles.rating}>4.4</Text>
+              {!match && (
+                <View>
+                  <Text style={styles.modalText}>
+                    Hang on we're finding a local!
+                  </Text>
+                  <ActivityIndicator size="large" color="#0000ff" />
+                  <TouchableOpacity
+                    onPress={onCancel}
+                    style={styles.cancelButton}
+                  >
+                    <Text style={styles.modalTextCancel}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              {match && (
+                <View>
+                  <Text style={styles.modalText}>You've been paired!</Text>
+                  <View style={styles.tileContainerVertical}>
+                    <View style={styles.tileContainer}>
+                      <Image
+                        source={{
+                          uri: "https://s3-alpha-sig.figma.com/img/fd16/f7c0/f7413b2e46fd5b05c964dd658938cd24?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kGuzGIOB9ol9Vbu8w-W47Gyk7nKDWUWhkjjYdCyeWep4IAptjL-JPwxafzQkabUDDGVJZcZuZu8WCsQWKliOmhNVCsQUGPLfolSzpBhFBVlr~RP~8o~uQWjqOlA0-oya-~L6Ytcyrb2ufynAHcvViB~RQOS4XpdOkXVC71LzISDtpggjkwWycXJWrQyrzyMvEtu9FghZjyOJRYitP0L3-Iu0VHbo~6tZIph8zzOVbOPOvpuj71SUtwhA2uUO9-PsKhyao9TYfJ0k1mUrg8WN40~fCeH4tNAj70m~B0H0qQEi79-FJB20B8yazYq5g3Y23OhI7vT0uQDSo1L6bv-CAw__",
+                        }}
+                        style={styles.profileImage}
+                      />
+                      <View style={styles.tileTextContainer}>
+                        <View style={styles.tileHeaderContainer}>
+                          <Text style={styles.name}>{match["match"]}</Text>
+                          <View style={styles.ratingBubble}>
+                            <Text style={styles.rating}>4.4</Text>
+                          </View>
+                        </View>
                       </View>
                     </View>
-                    <Text style={styles.location1}>Palo Alto, Santa Clara</Text>
-                    <Text style={styles.dateTime}>02/16/2024 08:23</Text>
-                    <Text style={styles.bio}>
-                      some words about food preference/bio idk i’m just a woman
-                    </Text>
                   </View>
+                  <View style={styles.payment}>
+                    <IconFont name="apple-pay" size={20} color="#000" />
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-Regular",
+                        fontSize: 16,
+                        marginLeft: 10,
+                        marginRight: 110,
+                      }}
+                    >
+                      **** 2024
+                    </Text>
+                    <Icons name="arrow-forward-ios" size={20} color="#000" />
+                  </View>
+                  <TouchableOpacity
+                    onPress={handleConfirmedSubmit}
+                    style={styles.buttonFilter}
+                  >
+                    <Text style={styles.filterButtonText}>Confirm</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.modalTextCancel}>Cancel</Text>
                 </View>
-              </View>
-              <View style={styles.payment}>
-                <IconFont name="apple-pay" size={20} color="#000" />
-                <Text
-                  style={{
-                    fontFamily: "Poppins-Regular",
-                    fontSize: 16,
-                    marginLeft: 10,
-                    marginRight: 110,
-                  }}
-                >
-                  **** 2024
-                </Text>
-                <Icons name="arrow-forward-ios" size={20} color="#000" />
-              </View>
-              <TouchableOpacity
-                onPress={handleConfirmedSubmit}
-                style={styles.buttonFilter}
-              >
-                <Text style={styles.filterButtonText}>Confirm</Text>
-              </TouchableOpacity>
-              <Text style={styles.modalTextCancel}>Cancel</Text>
+              )}
             </View>
           </View>
         </Modal>

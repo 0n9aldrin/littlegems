@@ -21,6 +21,8 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import Icon from "react-native-vector-icons/Feather";
 
+import { useUser } from "@clerk/clerk-react";
+
 const dummyMessages = [
   { origin: "Austin", message: "Hello!" },
   { origin: "User123", message: "Hi there!" },
@@ -33,14 +35,16 @@ const Chat = () => {
   const [password, setPassword] = React.useState("");
   const { isLoading, isAuthenticated } = useConvexAuth();
   const [newMessageText, setNewMessageText] = useState("");
-  // const messages = useQuery(api.messaging.list);
-  const messages = dummyMessages;
+  const messages = useQuery(api.messaging.list);
+  const { user } = useUser();
+  //const messages = dummyMessages;
+  const myName = user.fullName;
+
   const sendMessage = useMutation(api.messaging.send);
   const btnSendMsg = async () => {
-    await sendMessage({ message: newMessageText, origin: "Austin" });
+    await sendMessage({ message: newMessageText, origin: myName });
     setNewMessageText("");
   };
-  console.log(messages);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -77,13 +81,13 @@ const Chat = () => {
                 key={message._id}
                 style={[
                   styles.messageContainer,
-                  message.origin === "Austin"
+                  message.origin === myName
                     ? styles.messageMine
                     : styles.messageTheirs,
                 ]}
               >
                 {/* Conditionally render profile picture for messages sent by users other than "Austin" */}
-                {message.origin !== "Austin" && (
+                {message.origin !== myName && (
                   <Image
                     source={{
                       uri: "https://s3-alpha-sig.figma.com/img/fd16/f7c0/f7413b2e46fd5b05c964dd658938cd24?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kGuzGIOB9ol9Vbu8w-W47Gyk7nKDWUWhkjjYdCyeWep4IAptjL-JPwxafzQkabUDDGVJZcZuZu8WCsQWKliOmhNVCsQUGPLfolSzpBhFBVlr~RP~8o~uQWjqOlA0-oya-~L6Ytcyrb2ufynAHcvViB~RQOS4XpdOkXVC71LzISDtpggjkwWycXJWrQyrzyMvEtu9FghZjyOJRYitP0L3-Iu0VHbo~6tZIph8zzOVbOPOvpuj71SUtwhA2uUO9-PsKhyao9TYfJ0k1mUrg8WN40~fCeH4tNAj70m~B0H0qQEi79-FJB20B8yazYq5g3Y23OhI7vT0uQDSo1L6bv-CAw__",

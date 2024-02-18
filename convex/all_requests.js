@@ -26,7 +26,13 @@ function haversine(lat1, lon1, lat2, lon2) {
 }
 
 export const insert = mutation({
-  args: { loc: v.any(), lat: v.any(), lon: v.any(), time: v.any() },
+  args: {
+    loc: v.any(),
+    lat: v.any(),
+    lon: v.any(),
+    time: v.any(),
+    note: v.any(),
+  },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     const taskId = await ctx.db.insert("all_requests", {
@@ -36,8 +42,10 @@ export const insert = mutation({
       lon: args.lon,
       name: identity.name,
       tokenIdentifier: identity.tokenIdentifier,
+      note: args.note,
+      match: "",
     });
-    // do something with `taskId`
+    return taskId;
   },
 });
 
@@ -62,5 +70,26 @@ export const get = query({
         )
       )
       .collect();
+  },
+});
+
+export const get_with_id = query({
+  args: {
+    id: v.any(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
+  },
+});
+
+export const change = mutation({
+  args: {
+    id: v.any(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    const { id } = args;
+    console.log(await ctx.db.get(id));
+    await ctx.db.patch(id, { match: identity.name });
   },
 });
