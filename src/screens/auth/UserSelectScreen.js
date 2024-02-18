@@ -21,21 +21,21 @@ const UserSelect = ({ navigation }) => {
 
   const [location, setLocation] = useState();
   const [address, setAddress] = useState();
-  
+
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const getPermissions = async() => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-            console.log("Pleas grant location permissions")
-            return;
-        }
+    const getPermissions = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Pleas grant location permissions");
+        return;
+      }
 
-        let currentLocation = await Location.getCurrentPositionAsync({});
-        setLocation(currentLocation);
-        console.log("Location:");
-        console.log(currentLocation);
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      setLocation(currentLocation);
+      console.log("Location:");
+      console.log(currentLocation);
     };
     getPermissions();
   }, []);
@@ -44,22 +44,24 @@ const UserSelect = ({ navigation }) => {
     const geocodedLocation = await Location.geocodeAsync(address);
     console.log("Geocoded Address");
     console.log(geocodedLocation);
-  }
+  };
 
   const onContinuePress = async () => {
     // Fetch the current location
     setIsLoading(true);
     const currentLocation = await Location.getCurrentPositionAsync({});
     setLocation(currentLocation);
-  
+
     if (userType === 1) {
       await newTourist({ dietary_restrictions: filters });
+      navigation.navigate("Tourist Home Screen");
     }
     if (userType === 0) {
       const obj = reverseGeocode();
       console.log("here");
       console.log(obj);
       await newLocal({ lon: 20, lat: 20, dist: radius });
+      navigation.navigate("Local Home Screen");
     }
     navigation.navigate("TouristHomeScreen");
   };
@@ -67,7 +69,7 @@ const UserSelect = ({ navigation }) => {
   const reverseGeocode = async () => {
     const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
       longitude: location.coords.longitude,
-      latitude: location.coords.latitude
+      latitude: location.coords.latitude,
     });
 
     console.log("Reverse Geocoded:");
@@ -76,20 +78,46 @@ const UserSelect = ({ navigation }) => {
 
   const pressHandler = () => {
     if (userType == 1) {
-        setUserType(0);
+      setUserType(0);
     } else {
-        setUserType(1);
+      setUserType(1);
     }
-  }
+  };
 
   return (
     <View>
       <View style={styles.container}>
-        <TouchableOpacity style={[styles.subContainer, {backgroundColor: userType ? "white" : "#28637D"}]} onPress={pressHandler}>
-            <Text style={[styles.buttonText, {color: userType ? "#28637D" : "white"}]}>Local</Text>
+        <TouchableOpacity
+          style={[
+            styles.subContainer,
+            { backgroundColor: userType ? "white" : "#28637D" },
+          ]}
+          onPress={pressHandler}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              { color: userType ? "#28637D" : "white" },
+            ]}
+          >
+            Local
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.subContainer, {backgroundColor: userType ? "#28637D" : "white"}]} onPress={pressHandler}>
-            <Text style={[styles.buttonText, {color: userType ? "white" : "#28637D"}]}>Tourist</Text>
+        <TouchableOpacity
+          style={[
+            styles.subContainer,
+            { backgroundColor: userType ? "#28637D" : "white" },
+          ]}
+          onPress={pressHandler}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              { color: userType ? "white" : "#28637D" },
+            ]}
+          >
+            Tourist
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.selectionContainer}>
@@ -101,12 +129,21 @@ const UserSelect = ({ navigation }) => {
         )}
       </View>
       <View style={styles.continueWrapper}>
-        {!isLoading && <LoginButton text="Continue" onPress={onContinuePress} />}
-        {isLoading && 
-        (<View style={[styles.smallContainer,{backgroundColor: "white", color:"#28637D"}]}>
-            <Text style={[styles.loadingText, {color: "#28637D"}]}>Loading...</Text>
-        </View>)
-        }
+        {!isLoading && (
+          <LoginButton text="Continue" onPress={onContinuePress} />
+        )}
+        {isLoading && (
+          <View
+            style={[
+              styles.smallContainer,
+              { backgroundColor: "white", color: "#28637D" },
+            ]}
+          >
+            <Text style={[styles.loadingText, { color: "#28637D" }]}>
+              Loading...
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -153,8 +190,8 @@ const styles = StyleSheet.create({
   loadingText: {
     color: "white",
     fontSize: 18,
-    fontFamily: "Poppins-Bold"
-  }
+    fontFamily: "Poppins-Bold",
+  },
 });
 
 export default UserSelect;

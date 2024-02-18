@@ -12,13 +12,25 @@ const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 07737e94cec9c935af3796ba73cb519a8cddf576
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="UserSelect" component={UserSelect} />
+    <Stack.Screen name="DietFilters" component={DietFilters} />
+    <Stack.Screen name="RadiusSelector" component={RadiusSelector} />
+    {/* <Stack.Screen name="Chat" component={Chat} /> */}
+    {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
+    {/* <Stack.Screen name="Login" component={Login} /> */}
+    {/* <Stack.Screen name="UserSelect" component={UserSelect} /> */}
+    {/* <Stack.Screen name="DietFilters" component={DietFilters} /> */}
+    <Stack.Screen name="Local Home Screen" component={LocalHomeScreen} />
+    <Stack.Screen name="Tourist Home Screen" component={TouristHomeScreen} />
     <Stack.Screen name="Chat" component={Chat} />
     {/* <Stack.Screen name="Local Home Screen" component={LocalHomeScreen} /> */}
-    <Stack.Screen name="TouristHomeScreen" component={TouristHomeScreen} />
+    {/* <Stack.Screen name="TouristHomeScreen" component={TouristHomeScreen} /> */}
   </Stack.Navigator>
 );
 
