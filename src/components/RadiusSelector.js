@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: "33%",
+    marginBottom: "20%",
   },
   slider: {
     marginTop: "10%",

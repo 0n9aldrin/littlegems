@@ -30,7 +30,7 @@ const dummyMessages = [
   { origin: "User123", message: "I'm good, thanks!" },
 ];
 
-const Chat = () => {
+const Chat = ({navigation}) => {
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
   const { isLoading, isAuthenticated } = useConvexAuth();
@@ -45,6 +45,10 @@ const Chat = () => {
     await sendMessage({ message: newMessageText, origin: myName });
     setNewMessageText("");
   };
+
+  const handleWeMet = () => {
+    navigation.navigate("Photo Verification");
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -65,10 +69,10 @@ const Chat = () => {
               }}
               style={styles.profileImage}
             />
-            <View style={styles.confirmButton}>
+            <TouchableOpacity style={styles.confirmButton} onPress={handleWeMet}>
               <Icon name="check-circle" size={20} color="white" />
               <Text style={styles.confirmButtonText}>We Met</Text>
-            </View>
+            </TouchableOpacity>
           </View>
           <Text style={styles.userName}>Marvis Ighedosa</Text>
           <Text style={styles.date}>01/01/24 11:00 AM</Text>
