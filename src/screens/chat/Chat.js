@@ -30,7 +30,7 @@ const dummyMessages = [
   { origin: "User123", message: "I'm good, thanks!" },
 ];
 
-const Chat = ({navigation}) => {
+const Chat = ({ navigation, route }) => {
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
   const { isLoading, isAuthenticated } = useConvexAuth();
@@ -45,10 +45,11 @@ const Chat = ({navigation}) => {
     await sendMessage({ message: newMessageText, origin: myName });
     setNewMessageText("");
   };
+  const { prop1 } = route.params;
 
   const handleWeMet = () => {
     navigation.navigate("Photo Verification");
-  }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -69,14 +70,17 @@ const Chat = ({navigation}) => {
               }}
               style={styles.profileImage}
             />
-            <TouchableOpacity style={styles.confirmButton} onPress={handleWeMet}>
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={handleWeMet}
+            >
               <Icon name="check-circle" size={20} color="white" />
               <Text style={styles.confirmButtonText}>We Met</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.userName}>Marvis Ighedosa</Text>
-          <Text style={styles.date}>01/01/24 11:00 AM</Text>
-          <Text style={styles.address}>69 Ur Mums Street, CA, 10001</Text>
+          <Text style={styles.userName}>{prop1}</Text>
+          {/* <Text style={styles.date}>01/01/24 11:00 AM</Text>
+          <Text style={styles.address}>69 Ur Mums Street, CA, 10001</Text> */}
         </View>
         <View style={styles.msgAreaContainer}>
           <ScrollView style={styles.msgArea}>
@@ -102,7 +106,7 @@ const Chat = ({navigation}) => {
                 <View
                   style={[
                     styles.bubble,
-                    message.origin === "Austin"
+                    message.origin === myName
                       ? styles.bubbleMine
                       : styles.bubbleTheirs,
                   ]}

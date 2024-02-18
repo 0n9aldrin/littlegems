@@ -112,7 +112,9 @@ const TouristTile = ({
           onPress: () => {
             editMatch({ id: id });
             console.log(`${name}'s request confirmed`);
-            navigation.navigate("Chat");
+            navigation.navigate("Chat", {
+              prop1: name,
+            });
           },
         },
       ]

@@ -119,7 +119,9 @@ const TouristHomeScreen = ({ navigation }) => {
   };
 
   const handleConfirmedSubmit = async () => {
-    navigation.navigate("Chat");
+    navigation.navigate("Chat", {
+      prop1: match["match"],
+    });
     setModalVisible(false);
   };
 
@@ -250,12 +252,16 @@ const TouristHomeScreen = ({ navigation }) => {
           <View style={styles.overlay}>
             <View style={styles.modalContainer}>
               {/* Hang on */}
-              {!match && (
+              {(!match || (match && !match["match"])) && (
                 <View>
                   <Text style={styles.modalText}>
                     Hang on we're finding a local!
                   </Text>
-                  <ActivityIndicator size="large" color="#0000ff" />
+                  <ActivityIndicator
+                    size="large"
+                    color="#0000ff"
+                    style={styles.spinny}
+                  />
                   <TouchableOpacity
                     onPress={onCancel}
                     style={styles.cancelButton}
@@ -264,7 +270,7 @@ const TouristHomeScreen = ({ navigation }) => {
                   </TouchableOpacity>
                 </View>
               )}
-              {match && (
+              {match && match["match"] && (
                 <View>
                   <Text style={styles.modalText}>You've been paired!</Text>
                   <View style={styles.tileContainerVertical}>
@@ -356,6 +362,9 @@ const styles = StyleSheet.create({
   },
   clearIcon: {
     padding: 10,
+  },
+  spinny: {
+    padding: 50,
   },
   searchResultsContainer: {
     position: "absolute",
