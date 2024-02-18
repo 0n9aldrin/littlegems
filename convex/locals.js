@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
 export const insert = mutation({
@@ -16,5 +16,17 @@ export const insert = mutation({
       lat: args.lat,
       dist: args.dist,
     });
+  },
+});
+
+export const getSelf = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    const data = await ctx.db
+      .query("locals")
+      .filter((q) => q.eq(q.field("name"), identity.name))
+      .collect();
+    return data;
   },
 });

@@ -19,8 +19,12 @@ import IconFont from "react-native-vector-icons/Fontisto";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+
 const TouristHomeScreen = () => {
   const [date, setDate] = useState(new Date());
+  const [stringDate, setStringDate] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -36,6 +40,7 @@ const TouristHomeScreen = () => {
   const [noteText, setNoteText] = useState("");
   const inputRef = useRef(null);
 
+  const newRequest = useMutation(api.all_requests.insert);
 
   const handlePlaceSelect = (place) => {
     // Extract and store only the first two parts from the display_name
@@ -49,7 +54,6 @@ const TouristHomeScreen = () => {
     setSearchResults([]); // Collapse the search results
     setSearchText("");
   };
-  
 
   const clearSearch = () => {
     setSearchText("");
@@ -90,7 +94,7 @@ const TouristHomeScreen = () => {
     // Handle selected time
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("Selected Date:", date.toDateString());
     console.log("Selected Time:", date.toTimeString());
     console.log("Place: ", selectedPlace.name);
@@ -98,11 +102,16 @@ const TouristHomeScreen = () => {
     console.log("Place Lat: ", selectedPlace.lat);
     console.log("Note: ", noteText);
     setModalVisible(true); // Show the modal
+
+    await newRequest({
+      loc: parseFloat(selectedPlace.name),
+      lat: parseFloat(selectedPlace.lat),
+      lon: parseFloat(selectedPlace.long),
+      time: date.toString(),
+    });
   };
 
-  const handleConfirmedSubmit = () => {
-    console.log("Payment complete");
-  };
+  const handleConfirmedSubmit = async () => {};
 
   const onCancel = () => {
     console.log("Request to cancel request in backend");
@@ -263,8 +272,17 @@ const TouristHomeScreen = () => {
                 </View>
               </View>
               <View style={styles.payment}>
-              <IconFont name="apple-pay" size={20} color="#000" />
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, marginLeft: 10, marginRight: 110 }}>**** 2024</Text>
+                <IconFont name="apple-pay" size={20} color="#000" />
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Regular",
+                    fontSize: 16,
+                    marginLeft: 10,
+                    marginRight: 110,
+                  }}
+                >
+                  **** 2024
+                </Text>
                 <Icons name="arrow-forward-ios" size={20} color="#000" />
               </View>
               <TouchableOpacity

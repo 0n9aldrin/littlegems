@@ -9,7 +9,7 @@ import DietFilters from "../../components/DietFilters";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 
-const UserSelect = () => {
+const UserSelect = ({ navigation }) => {
   const [userType, setUserType] = useState(0);
   const newTourist = useMutation(api.tourists.insert);
   const newLocal = useMutation(api.locals.insert);
@@ -24,9 +24,11 @@ const UserSelect = () => {
   const onContinuePress = async () => {
     if (userType == 1) {
       await newTourist({ dietary_restrictions: filters });
+      navigation.navigate("Tourist Home Screen");
     }
     if (userType == 0) {
       await newLocal({ lon: 20, lat: 20, dist: radius });
+      navigation.navigate("Local Home Screen");
     }
   };
 
