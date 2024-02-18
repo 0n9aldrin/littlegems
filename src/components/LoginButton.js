@@ -11,8 +11,8 @@ const LoginButton = ({ text, onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
-    borderRadius: 60,
+    backgroundColor: "#28637D",
+    borderRadius: 100,
     width: "70%",
     height: 50,
     alignItems: "center",
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 18,
-    fontWeight: "bold",
-    fontFamily: "Poppins-Regular",
+    fontFamily: "Poppins-Bold"
+
   },
 });
 

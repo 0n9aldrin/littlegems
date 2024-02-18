@@ -5,11 +5,15 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Image,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { useConvexAuth } from "convex/react";
 import React from "react";
 import { useSignIn } from "@clerk/clerk-expo";
+import logo from "../../../assets/logo-gem.png";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -39,7 +43,9 @@ const Login = ({ navigation }) => {
     }
   };
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
+      <Image source={logo} style={styles.logo} />
       <View style={styles.usernameInputContainer}>
         <Text style={styles.usernameTitle}>Email Address</Text>
         <TextInput
@@ -67,7 +73,12 @@ const Login = ({ navigation }) => {
           onPress={onSignInPress}
         />
         <View style={styles.textWrapper}>
-          <Text style={styles.text}>Don't have an account </Text>
+          <TouchableOpacity
+            style={styles.signUpTextWrapper}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={styles.text}>Don't have an account </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.signUpTextWrapper}
             onPress={() => navigation.navigate("SignUp")}
@@ -77,6 +88,7 @@ const Login = ({ navigation }) => {
         </View>
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -89,13 +101,22 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     justifyContent: "center",
   },
+  logo: {
+    width: 280, // Set the width of your image
+    height: 280, // Set the height of your image
+    resizeMode: "contain", // or 'cover' or 'stretch'
+    marginBottom: 20,
+  },
   textWrapper: {
     flexDirection: "row",
     marginTop: 12,
   },
   signUpTextWrapper: {},
+  text: {
+    fontFamily: "Poppins-Regular",
+  },
   signUpText: {
-    fontWeight: "bold",
+    fontFamily: "Poppins-Bold",
   },
   passwordInput: {
     borderBottomWidth: 1,
@@ -122,9 +143,11 @@ const styles = StyleSheet.create({
   },
   usernameTitle: {
     color: "rgba(0, 0, 0, .4)",
+    fontFamily: "Poppins-Regular",
   },
   passwordTitle: {
     color: "rgba(0, 0, 0, .4)",
+    fontFamily: "Poppins-Regular",
   },
   buttonWrapper: {
     marginTop: 80,
