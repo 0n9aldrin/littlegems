@@ -1,3 +1,6 @@
+![Little Gems]([URL](https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/769/719/datas/original.png
+))
+
 ## Inspiration 🧠
 Have you ever been in a new city, sifting through thousands of highly-rated restaurants?
 <br>
